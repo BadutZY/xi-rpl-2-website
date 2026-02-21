@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263 70% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 263 40% 25%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 263 70% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(263, 70%, 50%), hsl(160, 84%, 39%));
+    --gradient-primary-hover: linear-gradient(135deg, hsl(263, 70%, 58%), hsl(160, 84%, 45%));
+    --gradient-button: linear-gradient(135deg, hsl(263, 70%, 42%), hsl(263, 70%, 36%));
+    --gradient-button-hover: linear-gradient(135deg, hsl(263, 70%, 50%), hsl(263, 70%, 42%));
+    --gradient-emerald: linear-gradient(135deg, hsl(160, 84%, 36%), hsl(160, 84%, 30%));
+    --gradient-emerald-hover: linear-gradient(135deg, hsl(160, 84%, 42%), hsl(160, 84%, 36%));
+    --gradient-detail: linear-gradient(135deg, hsl(263, 70%, 42%), hsl(160, 84%, 36%));
+    --card-bg: linear-gradient(135deg, hsla(263, 70%, 50%, 0.08), hsla(160, 84%, 39%, 0.04));
+    --card-border: hsla(263, 70%, 50%, 0.25);
+    --card-hover-shadow: 0 20px 40px hsla(263, 70%, 50%, 0.2);
+    --time-badge-bg: hsla(263, 70%, 50%, 0.2);
+    --time-badge-border: hsla(263, 70%, 50%, 0.5);
+    --subject-badge-bg: hsla(160, 84%, 39%, 0.15);
+    --subject-badge-border: hsla(160, 84%, 39%, 0.4);
+    --modal-overlay: hsla(222, 47%, 6%, 0.85);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .tech-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsla(263, 70%, 50%, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .tech-card:hover::before {
+    left: 100%;
+  }
+
+  .tech-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: hsla(263, 70%, 50%, 0.5);
+  }
+
+  .schedule-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .schedule-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: hsla(263, 70%, 50%, 0.5);
+  }
+
+  .student-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .student-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: hsla(263, 70%, 50%, 0.5);
+  }
+
+  .time-badge {
+    background: var(--time-badge-bg);
+    border: 1px solid var(--time-badge-border);
+    color: hsl(263, 70%, 70%);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+
+  .subject-badge {
+    background: var(--subject-badge-bg);
+    border: 1px solid var(--subject-badge-border);
+    color: hsl(160, 84%, 60%);
+  }
+
+  .filter-btn {
+    background: var(--time-badge-bg);
+    border: 1px solid var(--time-badge-border);
+    color: hsl(var(--foreground));
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: hsla(263, 70%, 50%, 0.4);
+    border-color: hsl(263, 70%, 50%);
+  }
+
+  .btn-primary {
+    background: var(--gradient-button);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: var(--gradient-button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px hsla(263, 70%, 50%, 0.3);
+  }
+
+  .btn-secondary-outline {
+    border: 2px solid hsl(263, 70%, 50%);
+    color: hsl(263, 70%, 65%);
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary-outline:hover {
+    background: hsla(263, 70%, 50%, 0.15);
+    color: hsl(var(--foreground));
+    border-color: hsl(263, 70%, 58%);
+  }
+
+  .btn-emerald {
+    background: var(--gradient-emerald);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .btn-emerald:hover {
+    background: var(--gradient-emerald-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px hsla(160, 84%, 39%, 0.3);
+  }
+
+  .btn-detail {
+    background: var(--gradient-detail);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .btn-detail:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .modal-overlay {
+    background: var(--modal-overlay);
+    backdrop-filter: blur(8px);
+  }
+
+  .modal-content-box {
+    background: hsl(var(--card));
+    border: 1px solid var(--card-border);
+  }
+
+  .social-icon-link {
+    background: hsla(263, 70%, 50%, 0.2);
+    border: 1px solid hsla(263, 70%, 50%, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .social-icon-link:hover {
+    background: hsla(263, 70%, 50%, 0.4);
+    border-color: hsl(263, 70%, 50%);
+  }
+
+  .student-photo-placeholder {
+    background: linear-gradient(135deg, hsla(215, 20%, 65%, 0.3), hsla(215, 20%, 65%, 0.1));
+  }
+
+  .nav-header {
+    background: hsla(222, 47%, 11%, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsla(263, 70%, 50%, 0.1);
+  }
+
+  .section-divider {
+    width: 6rem;
+    height: 3px;
+    background: var(--gradient-primary);
+  }
+
+  .toggle-container {
+    background: hsla(263, 70%, 50%, 0.1);
+    border: 1px solid hsla(263, 70%, 50%, 0.3);
+  }
+
+  .toggle-btn {
+    color: hsl(var(--muted-foreground));
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+
+  .toggle-btn.active {
+    color: hsl(var(--foreground));
+  }
+
+  .toggle-slider-bg {
+    background: var(--gradient-button);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 9999px;
+  }
+
+  .lesson-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  .lesson-tag-red {
+    background: hsla(0, 72%, 51%, 0.2);
+    color: hsl(0, 72%, 65%);
+  }
+
+  .lesson-tag-blue {
+    background: hsla(210, 100%, 56%, 0.2);
+    color: hsl(210, 100%, 67%);
+  }
+
+  .lesson-tag-yellow {
+    background: hsla(45, 93%, 47%, 0.2);
+    color: hsl(45, 93%, 58%);
+  }
+
+  .search-input {
+    background: hsla(263, 70%, 50%, 0.1);
+    border: 1px solid hsla(263, 70%, 50%, 0.3);
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    border-color: hsl(263, 70%, 50%);
+    box-shadow: 0 0 0 3px hsla(263, 70%, 50%, 0.1);
+    outline: none;
+  }
+
+  .search-input::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .modal-lesson-item {
+    background: hsla(263, 70%, 50%, 0.08);
+    border: 1px solid hsla(263, 70%, 50%, 0.2);
+    border-radius: 0.75rem;
+    padding: 1rem;
+  }
+}
