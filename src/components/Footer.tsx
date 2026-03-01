@@ -17,7 +17,7 @@ const Footer = () => {
               &copy; XI RPL 2 - All rights reserved
             </p>
             <p className="text-muted-foreground/60 text-sm">
-              Made by BadutZY, Grok, and Claude
+              Made by BadutZY & Lovable
             </p>
           </div>
         </div>
