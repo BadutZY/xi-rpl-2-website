@@ -133,7 +133,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 24, no: "24", name: "Natasya", fullName: "NATASYA MELINDA",
-    age: 0, birthdate: "-", position: "-", kreditPoin: "-",
+    age: 0, birthdate: "-", position: "-", kreditPoin: "100",
     socials: { instagram: "https://www.instagram.com/_nattssyaaa/", twitter: "-", youtube: "-" }
   },
   {
