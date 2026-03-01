@@ -33,7 +33,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 4, no: "4", name: "Ayesha", fullName: "AYESHA NADYA AFSARIANA",
-    age: 17, birthdate: "04 Juni 2009", position: "Seksi Kebersihan", kreditPoin: "100",
+    age: 17, birthdate: "4 Juni 2009", position: "Seksi Kebersihan", kreditPoin: "100",
     socials: { instagram: "https://www.instagram.com/fleurbunns_dysha/" }
   },
   {
@@ -58,7 +58,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 9, no: "9", name: "Gadis", fullName: "GADIS PUTRI HUDAYA",
-    age: 18, birthdate: "07 Oktober 2008", position: "-", kreditPoin: "7",
+    age: 18, birthdate: "7 Oktober 2008", position: "-", kreditPoin: "7",
     socials: { instagram: "https://www.instagram.com/gdsptr.r/", twitter: "-", youtube: "-" }
   },
   {
@@ -109,7 +109,7 @@ export const studentsData: Student[] = [
   {
     id: 19, no: "19", name: "Fatih", fullName: "MUHAMMAD AL FATIH HAIDAR",
     age: 18, birthdate: "22 Juni 2008", position: "Wakil Ketua kelas", kreditPoin: "97",
-    socials: { instagram: "@alf219881" }
+    socials: { instagram: "https://www.instagram.com/gevithia/" }
   },
   {
     id: 20, no: "20", name: "Defran", fullName: "MUHAMMAD DEFRANS ABDULLAH HAJRIN",
