@@ -19,7 +19,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 1, no: "1", name: "Abiyan", fullName: "ABIYAN ZUL FADLI",
-    age: 18, birthdate: "15 Mei 2008", position: "-", kreditPoin: "72",
+    age: 18, birthdate: "15 Juli 2008", position: "-", kreditPoin: "72",
     socials: { instagram: "https://www.instagram.com/yanxilberto/", github: "-", twitter: "-" }
   },
   {
@@ -139,7 +139,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 25, no: "25", name: "Rafi", fullName: "RAFI ADIYATMA TRI FALAH",
-    age: 17, birthdate: "25 April 2009", position: "-", kreditPoin: "100",
+    age: 17, birthdate: "25 Mei 2009", position: "-", kreditPoin: "100",
     socials: { instagram: "-", twitter: "-", youtube: "-" }
   },
   {
