@@ -90,7 +90,7 @@ export const studentsData: Student[] = [
   {
     id: 15, no: "15", name: "Mario", fullName: "MARIO RAMDANI",
     age: 18, birthdate: "24 Maret 2008", position: "Ketua Kelas", kreditPoin: "91",
-    socials: { instagram: "@swimmingfoxx_", github: "Marrwertz", game: "https://equinoxinteractive.github.io/BoxSiege/" }
+    socials: { instagram: "@swimmingfoxx_", github: "Marrwertz", game: "https://box-siege.vercel.app" }
   },
   {
     id: 16, no: "16", name: "Fathur", fullName: "MOCHAMAD FATHURAHMAN",
