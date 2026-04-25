@@ -121,7 +121,7 @@ export const piketSchedule: Record<string, PiketItem[]> = {
     { fullName: "MUHAMMAD RAFA PRATAMA", nickname: "Rafa" },
   ],
   jumat: [
-    { fullName: "MUHAMMAD RIZKY AKBAR GOZALI", nickname: "Akbar" },
+    { fullName: "MUHAMMAD RIZKY AKBAR GOZALI", nickname: "Moble" },
     { fullName: "RAFI ADIYATMA TRI FALAH", nickname: "Rafi" },
     { fullName: "RAKA SYAFA'ATAN", nickname: "Rakas" },
     { fullName: "SANDI SANJAYA", nickname: "Sandi" },

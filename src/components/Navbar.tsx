@@ -6,12 +6,12 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/", hash: "about", label: "About" },
   { to: "/", hash: "technologies", label: "Lessons" },
+  { to: "/", hash: "gallery", label: "Gallery" },
   { to: "/students", label: "Students" },
   { to: "/schedule", label: "Schedules" },
-  { to: "/gallery", label: "Gallery" },
 ] as const;
 
-const SPY_IDS = ["about", "technologies"] as const;
+const SPY_IDS = ["about", "technologies", "gallery"] as const;
 
 type NavLink = (typeof navLinks)[number];
 type SpyId = (typeof SPY_IDS)[number];
@@ -95,6 +95,7 @@ const Navbar = () => {
       }
       return location.pathname === link.to;
     }
+    if (link.hash === "gallery" && location.pathname === "/gallery") return true;
     if (location.pathname !== "/") return false;
     return activeHash === link.hash;
   };

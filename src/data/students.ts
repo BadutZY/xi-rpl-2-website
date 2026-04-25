@@ -123,7 +123,7 @@ export const studentsData: Student[] = [
     socials: { instagram: "https://www.instagram.com/prtma_farr/" }
   },
   {
-    id: 23, no: "23", name: "Akbar", fullName: "MUHAMMAD RIZKY AKBAR GOZALI",
+    id: 23, no: "23", name: "Moble", fullName: "MUHAMMAD RIZKY AKBAR GOZALI",
     age: 17, birthdate: "28 September 2009", position: "-", kreditPoin: "100",
     socials: { instagram: "https://www.instagram.com/kyzenn_akbarr/" }
   },
