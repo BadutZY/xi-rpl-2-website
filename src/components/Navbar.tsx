@@ -137,7 +137,7 @@ const Navbar = () => {
               window.history.pushState(null, "", "/");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="flex items-center gap-2 focus:outline-none"
+            className="flex items-center gap-2 focus:outline-none cursor-pointer"
             aria-label="Kembali ke Home"
           >
             <img
