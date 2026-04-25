@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Instagram, Github, Twitter, Youtube, Gamepad2, Linkedin, Globe } from "lucide-react";
 import type { Student } from "@/data/students";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 interface Props {
   student: Student | null;
@@ -37,6 +38,8 @@ function getSocialIcon(platform: string) {
 }
 
 const StudentModal = ({ student, onClose }: Props) => {
+  useScrollLock(student !== null);
+
   const overlay = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   }, [onClose]);

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, GraduationCap } from "lucide-react";
 import type { Teacher } from "@/data/teachers";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 interface Props {
   teacher: Teacher | null;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const TeacherModal = ({ teacher, onClose }: Props) => {
+  useScrollLock(teacher !== null);
+
   const overlay = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   }, [onClose]);

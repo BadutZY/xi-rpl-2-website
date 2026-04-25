@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, GraduationCap } from "lucide-react";
 import type { ScheduleDetail } from "@/data/schedule";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 interface Props {
   isOpen: boolean;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const ScheduleModal = ({ isOpen, onClose, details, dayLabel }: Props) => {
+  useScrollLock(isOpen);
+
   return (
     <AnimatePresence>
       {isOpen && (

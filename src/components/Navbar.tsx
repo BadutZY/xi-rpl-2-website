@@ -8,6 +8,7 @@ const navLinks = [
   { to: "/", hash: "technologies", label: "Lessons" },
   { to: "/students", label: "Students" },
   { to: "/schedule", label: "Schedules" },
+  { to: "/gallery", label: "Gallery" },
 ] as const;
 
 const SPY_IDS = ["about", "technologies"] as const;
