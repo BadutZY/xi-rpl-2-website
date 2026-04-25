@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border mt-12">
       <div className="container mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-6 md:mb-0 text-center md:text-left">
@@ -17,7 +17,7 @@ const Footer = () => {
               &copy; XI RPL 2 - All rights reserved
             </p>
             <p className="text-muted-foreground/60 text-sm">
-              Made by BadutZY & Lovable
+              Made by BadutZY, Claude &amp; Lovable
             </p>
           </div>
         </div>

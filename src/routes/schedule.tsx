@@ -1,51 +1,52 @@
 import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { BookOpen, Brush, Eye, UserCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScheduleModal from "@/components/ScheduleModal";
 import StudentModal from "@/components/StudentModal";
-import { studentsData, Student } from "@/data/students";
-import {
-  lessonSchedule,
-  scheduleDetails,
-  piketSchedule,
-  dayNames,
-  dayLabels,
-} from "@/data/schedule";
+import { studentsData, type Student } from "@/data/students";
+import { lessonSchedule, scheduleDetails, piketSchedule, dayNames, dayLabels } from "@/data/schedule";
 
-const SchedulePage = () => {
+export const Route = createFileRoute("/schedule")({
+  component: SchedulePage,
+  head: () => ({
+    meta: [
+      { title: "Jadwal - XI RPL 2" },
+      { name: "description", content: "Jadwal pelajaran dan piket kelas XI RPL 2 SMK INFOKOM." },
+      { property: "og:title", content: "Jadwal — XI RPL 2" },
+    ],
+  }),
+});
+
+function SchedulePage() {
   const [activeTab, setActiveTab] = useState<"lesson" | "piket">("lesson");
-  const [filterDay, setFilterDay] = useState("all");
+  const [filterDay, setFilterDay] = useState<string>("all");
   const [modalDay, setModalDay] = useState<string | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   const filteredDays = filterDay === "all" ? [...dayNames] : dayNames.filter((d) => d === filterDay);
 
-  const findStudentByName = (fullName: string): Student | null => {
-    return studentsData.find((s) => s.fullName.toUpperCase() === fullName.toUpperCase()) || null;
-  };
+  const findStudentByName = (fullName: string): Student | null =>
+    studentsData.find((s) => s.fullName.toUpperCase() === fullName.toUpperCase()) || null;
 
   return (
     <div className="min-h-screen">
       <Navbar />
 
       <main className="container mx-auto px-4 py-12">
-        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl font-heading gradient-text mb-4">Jadwal</h2>
-          <p className="text-muted-foreground text-lg">Jadwal kelas XI RPL 2</p>
+          <h2 className="text-3xl md:text-4xl font-heading gradient-text mb-4">Jadwal</h2>
+          <p className="text-muted-foreground text-lg">Jadwal kelas XI RPL 2.</p>
         </motion.div>
 
         {/* Toggle */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="flex justify-center mb-8"
         >
           <div className="toggle-container rounded-full p-1 flex relative">
@@ -70,12 +71,9 @@ const SchedulePage = () => {
 
         {/* Filter */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="mb-8"
         >
-          {/* Mobile: select */}
           <div className="md:hidden text-center">
             <select
               value={filterDay}
@@ -89,8 +87,7 @@ const SchedulePage = () => {
             </select>
           </div>
 
-          {/* Desktop: buttons */}
-          <div className="hidden md:flex justify-center gap-3">
+          <div className="hidden md:flex justify-center gap-3 flex-wrap">
             <button
               onClick={() => setFilterDay("all")}
               className={`filter-btn px-4 py-2 rounded-full text-sm font-medium ${filterDay === "all" ? "active" : ""}`}
@@ -115,15 +112,14 @@ const SchedulePage = () => {
             {filteredDays.map((day, i) => (
               <motion.div
                 key={day}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="schedule-card p-6 rounded-xl flex flex-col"
               >
                 <h3 className="text-2xl font-heading gradient-text mb-4">{dayLabels[day]}</h3>
                 <div className="space-y-3 flex-grow">
                   {lessonSchedule[day].map((item, idx) => (
-                    <div key={idx} className="flex justify-between items-center">
+                    <div key={idx} className="flex justify-between items-center gap-2">
                       <span className="time-badge px-3 py-1 rounded-full text-xs">{item.time}</span>
                       <span className="subject-badge px-3 py-1 rounded-full text-xs">{item.subject}</span>
                     </div>
@@ -143,8 +139,7 @@ const SchedulePage = () => {
             {filteredDays.map((day, i) => (
               <motion.div
                 key={day}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05, duration: 0.3 }}
                 className="schedule-card p-6 rounded-xl"
               >
@@ -178,14 +173,9 @@ const SchedulePage = () => {
         details={modalDay ? scheduleDetails[modalDay] : []}
         dayLabel={modalDay ? dayLabels[modalDay] : ""}
       />
-      <StudentModal
-        student={selectedStudent}
-        onClose={() => setSelectedStudent(null)}
-      />
+      <StudentModal student={selectedStudent} onClose={() => setSelectedStudent(null)} />
 
       <Footer />
     </div>
   );
-};
-
-export default SchedulePage;
+}
