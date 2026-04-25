@@ -11,4 +11,12 @@ export default defineConfig({
     tailwindcss(),
     tsconfigPaths(),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://rpl2.vercel.app",
+        changeOrigin: true,
+      },
+    },
+  },
 });
