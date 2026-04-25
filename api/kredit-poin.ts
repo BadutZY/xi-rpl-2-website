@@ -1,60 +1,55 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-const TARGET_URL = "https://www.kredit-poin-siswa-smkinfokom.my.id/";
+const BASE_URL =
+  "https://www.kredit-poin-siswa-smkinfokom.my.id/dashboard/point/siswa/views/";
 
-const STUDENT_NAMES = [
-  "ABIYAN ZUL FADLI",
-  "AHMAD RAIHAN BATUBARA",
-  "AMANDA WIDYA PRAMESTI",
-  "AYESHA NADYA AFSARIANA",
-  "CHANTIKA OCTAVIANY",
-  "ELSA MAYASARI",
-  "FAJAR PERMANA PUTRA",
-  "FATHUL MUBIN",
-  "GADIS PUTRI HUDAYA",
-  "HAFIFA TUNURLIAH",
-  "IBRAHIM NAUFHAL",
-  "IRSYAD MUSYAFFA",
-  "KAFKA NAVIZZA AGUSTIN",
-  "KLARA AYU YUSNIA",
-  "MARIO RAMDANI",
-  "MOCHAMAD FATHURAHMAN",
-  "MOHAMAD RAFA ZAMIZAR",
-  "MUHAMAD PRASYA SISWADI",
-  "MUHAMMAD AL FATIH HAIDAR",
-  "MUHAMMAD DEFRANS ABDULLAH HAJRIN",
-  "MUHAMMAD MALIKUL MULKI",
-  "MUHAMMAD RAFA PRATAMA",
-  "MUHAMMAD RIZKY AKBAR GOZALI",
-  "RAFI ADIYATMA TRI FALAH",
-  "RAKA SYAFA'ATAN",
-  "RAYA AHMAD FADILAH",
-  "REVAN DWI ERLANGGA",
-  "RIZKY MAULANA PUTRA",
-  "SANDI SANJAYA",
-  "SULTAN BIMA AGASSI",
-];
+const STUDENT_IDS: Record<string, number> = {
+  "RIZKY MAULANA PUTRA": 1671,
+};
 
-function normalize(str: string): string {
-  return str
-    .toUpperCase()
-    .replace(/[^A-Z\s']/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+function parseSisaPoint(html: string): string | null {
+  const match = html.match(
+    /<th[^>]*>\s*Sisa\s*Point\s*<\/th>\s*<th[^>]*>:\s*<\/th>\s*<th[^>]*>\s*(\d+)\s*<\/th>/i
+  );
+  return match ? match[1] : null;
 }
 
-function matchStudentName(cellText: string): string | null {
-  const normalized = normalize(cellText);
-  for (const name of STUDENT_NAMES) {
-    if (normalized.includes(name) || name.includes(normalized)) {
-      return name;
+async function fetchWithRetry(
+  url: string,
+  retries = 2
+): Promise<string | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
+          "Accept-Encoding": "gzip, deflate, br",
+          Connection: "keep-alive",
+          Referer: "https://www.kredit-poin-siswa-smkinfokom.my.id/",
+        },
+        signal: AbortSignal.timeout(15000),
+      });
+
+      if (!res.ok) return null;
+      return await res.text();
+    } catch (err) {
+      if (attempt < retries) {
+        await new Promise((r) => setTimeout(r, 1000));
+        continue;
+      }
+      return null;
     }
   }
   return null;
 }
 
-function stripTags(html: string): string {
-  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+async function fetchPoinSiswa(siswaId: number): Promise<string | null> {
+  const html = await fetchWithRetry(`${BASE_URL}${siswaId}`);
+  if (!html) return null;
+  return parseSisaPoint(html);
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -62,73 +57,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=600");
 
-  try {
-    const response = await fetch(TARGET_URL, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml",
-        "Accept-Language": "id-ID,id;q=0.9,en;q=0.8",
-      },
-      signal: AbortSignal.timeout(8000),
-    });
+  const result: Record<string, string> = {};
+  const errors: Record<string, string> = {};
 
-    if (!response.ok) {
-      return res.status(502).json({
-        error: "Source website tidak bisa diakses",
-        status: response.status,
-      });
-    }
+  const entries = Object.entries(STUDENT_IDS);
 
-    const html = await response.text();
-    const result: Record<string, string> = {};
-
-    const trRegex = /<tr[\s\S]*?<\/tr>/gi;
-    const trMatches = html.match(trRegex) || [];
-
-    for (const row of trMatches) {
-      const tdRegex = /<td[^>]*>([\s\S]*?)<\/td>/gi;
-      const cells: string[] = [];
-      let tdMatch;
-      while ((tdMatch = tdRegex.exec(row)) !== null) {
-        cells.push(stripTags(tdMatch[1]));
+  await Promise.all(
+    entries.map(async ([fullName, siswaId]) => {
+      const poin = await fetchPoinSiswa(siswaId);
+      if (poin !== null) {
+        result[fullName] = poin;
+      } else {
+        errors[fullName] = `Gagal fetch ID ${siswaId}`;
       }
+    })
+  );
 
-      for (let i = 0; i < cells.length; i++) {
-        const matchedName = matchStudentName(cells[i]);
-        if (matchedName) {
-          for (let j = 0; j < cells.length; j++) {
-            if (i !== j && /^\d+$/.test(cells[j].trim())) {
-              result[matchedName] = cells[j].trim();
-              break;
-            }
-          }
-          break;
-        }
-      }
-    }
-
-    if (Object.keys(result).length === 0) {
-      for (const name of STUDENT_NAMES) {
-        const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const regex = new RegExp(`${escaped}[\\s\\S]{0,300}?(\\d{1,3})`, "i");
-        const match = html.match(regex);
-        if (match) {
-          result[name] = match[1];
-        }
-      }
-    }
-
-    return res.status(200).json({
-      success: true,
-      count: Object.keys(result).length,
-      data: result,
-    });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    return res.status(500).json({
-      error: "Gagal fetch data",
-      detail: message,
-    });
-  }
+  return res.status(200).json({
+    success: true,
+    count: Object.keys(result).length,
+    data: result,
+    errors: Object.keys(errors).length > 0 ? errors : undefined,
+  });
 }
