@@ -8,7 +8,6 @@ import StudentModal from "@/components/StudentModal";
 import TeacherModal from "@/components/TeacherModal";
 import { studentsData, type Student } from "@/data/students";
 import { teachersData, type Teacher } from "@/data/teachers";
-import { useKreditPoin } from "@/hooks/use-kredit-poin";
 
 export const Route = createFileRoute("/students")({
   component: StudentsPage,
@@ -26,20 +25,11 @@ function StudentsPage() {
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
 
-  const { poinMap, loading: poinLoading } = useKreditPoin();
-
-  const studentsWithLivePoin = useMemo(() => {
-    return studentsData.map((s) => ({
-      ...s,
-      kreditPoin: poinMap[s.fullName] ?? s.kreditPoin,
-    }));
-  }, [poinMap]);
-
   const filtered = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
-    if (!term) return studentsWithLivePoin;
+    if (!term) return studentsData;
     const isNumeric = /^\d+$/.test(term);
-    return studentsWithLivePoin.filter((s) => {
+    return studentsData.filter((s) => {
       const noMatch = isNumeric ? s.no === term : s.no.toLowerCase().includes(term);
       return (
         s.name.toLowerCase().includes(term) ||
@@ -48,7 +38,7 @@ function StudentsPage() {
         noMatch
       );
     });
-  }, [searchTerm, studentsWithLivePoin]);
+  }, [searchTerm]);
 
   return (
     <div className="min-h-screen">
@@ -82,7 +72,7 @@ function StudentsPage() {
           </motion.p>
         </div>
 
-        {/* Daftar Guru */}
+        {/* Daftar Guru — section terpisah */}
         <section className="mb-16">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 mb-3">
@@ -122,21 +112,6 @@ function StudentsPage() {
             ))}
           </div>
         </section>
-
-        {/* Live poin indicator */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          {poinLoading ? (
-            <span className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="inline-block w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-              Memuat kredit poin terbaru...
-            </span>
-          ) : (
-            <span className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
-              Kredit poin live dari SMKINFOKOM
-            </span>
-          )}
-        </div>
 
         {/* Search murid */}
         <motion.div
