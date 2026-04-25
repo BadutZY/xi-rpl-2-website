@@ -19,7 +19,7 @@ export const studentsData: Student[] = [
   },
   {
     id: 2, no: "2", name: "Bara", fullName: "AHMAD RAIHAN BATUBARA",
-    age: 17, birthdate: "25 Januari 2009", position: "-", kreditPoin: "51",
+    age: 17, birthdate: "25 Januari 2009", position: "-", kreditPoin: "48",
     socials: { instagram: "https://www.instagram.com/ahmd_baraaaa/" }
   },
   {
