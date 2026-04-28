@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Outlet, Link, createRootRoute } from "@tanstack/react-router";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function NotFoundComponent() {
   return (
@@ -28,5 +30,20 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  return <Outlet />;
+  const [loadingDone, setLoadingDone] = useState(false);
+
+  return (
+    <>
+      <LoadingScreen onComplete={() => setLoadingDone(true)} />
+      <div
+        style={{
+          opacity: loadingDone ? 1 : 0,
+          transition: "opacity 0.5s ease",
+          pointerEvents: loadingDone ? "auto" : "none",
+        }}
+      >
+        <Outlet />
+      </div>
+    </>
+  );
 }
