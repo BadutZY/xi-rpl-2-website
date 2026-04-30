@@ -5,7 +5,6 @@ import batik3 from "@/assets/gallery/batik3.jpeg";
 import juara from "@/assets/gallery/juara.jpeg";
 import juara2 from "@/assets/gallery/juara2.jpeg";
 import literasi from "@/assets/gallery/literasi.jpeg";
-import literasi2 from "@/assets/gallery/literasi2.jpeg";
 import mabar from "@/assets/gallery/mabar.jpeg";
 import ngumpul from "@/assets/gallery/ngumpul.jpeg";
 import ngumpul2 from "@/assets/gallery/ngumpul2.jpeg";
@@ -26,7 +25,6 @@ export const galleryImages: GalleryImage[] = [
   { id: 5,  src: juara,  title: " " },
   { id: 6,  src: juara2,  title: " " },
   { id: 7,  src: literasi,  title: " " },
-  { id: 8,  src: literasi2,  title: " " },
   { id: 9,  src: mabar,  title: " " },
   { id: 10, src: ngumpul, title: " " },
   { id: 11, src: ngumpul2, title: " " },
