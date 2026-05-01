@@ -140,7 +140,7 @@ export const studentsData: Student[] = [
   {
     id: 27, no: "27", name: "Raya", fullName: "RAYA AHMAD FADILAH",
     age: 17, birthdate: "12 April 2009", position: "-", kreditPoin: "88",
-    socials: {}
+    socials: { instagram: "https://www.instagram.com/prcsnue/" }
   },
   {
     id: 28, no: "28", name: "Revan", fullName: "REVAN DWI ERLANGGA",
