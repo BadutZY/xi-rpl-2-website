@@ -28,6 +28,28 @@ declare global {
 }
 
 // ============================================================
+// Helper: request landscape orientation on mobile
+// ============================================================
+async function requestLandscape() {
+  const isMobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+  if (!isMobile) return;
+  try {
+    await (screen.orientation as unknown as { lock?: (o: string) => Promise<void> })
+      ?.lock?.("landscape");
+  } catch {
+    /* user agent may reject; ignore */
+  }
+}
+
+function unlockOrientation() {
+  try {
+    (screen.orientation as unknown as { unlock?: () => void })?.unlock?.();
+  } catch {
+    /* noop */
+  }
+}
+
+// ============================================================
 // Instagram Embed — uses the official embed.js approach
 // (same as how YouTube uses its own iframe API)
 // ============================================================
@@ -105,6 +127,74 @@ function InstagramEmbed({ url, title }: { url: string; title: string }) {
   );
 }
 
+// ============================================================
+// YouTube Player wrapper with fullscreen + auto-landscape
+// ============================================================
+function YouTubePlayer({ video, autoPlay }: { video: VideoItem; autoPlay: boolean }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const id = getYouTubeId(video.src);
+
+  // Track fullscreen state changes (for button icon & orientation restore)
+  useEffect(() => {
+    const onFsChange = () => {
+      const inFs = document.fullscreenElement === wrapperRef.current;
+      setIsFullscreen(inFs);
+      if (!inFs) {
+        unlockOrientation();
+      }
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    if (!wrapperRef.current) return;
+    if (document.fullscreenElement) {
+      unlockOrientation();
+      await document.exitFullscreen();
+    } else {
+      await wrapperRef.current.requestFullscreen();
+      await requestLandscape();
+    }
+  };
+
+  if (!id) {
+    return (
+      <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden flex items-center justify-center text-muted-foreground">
+        URL YouTube tidak valid
+      </div>
+    );
+  }
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="relative w-full aspect-video bg-black rounded-xl overflow-hidden"
+    >
+      <iframe
+        className="w-full h-full"
+        src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=${autoPlay ? 1 : 0}&rel=0&modestbranding=1`}
+        title={video.title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+      {/* Custom fullscreen button overlay for mobile auto-landscape */}
+      <button
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? "Keluar fullscreen" : "Fullscreen"}
+        className="absolute bottom-3 right-3 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-sm flex items-center justify-center text-white transition sm:hidden"
+      >
+        {isFullscreen ? (
+          <Minimize className="w-4 h-4" />
+        ) : (
+          <Maximize className="w-4 h-4" />
+        )}
+      </button>
+    </div>
+  );
+}
+
 interface Props {
   video: VideoItem;
   autoPlay?: boolean;
@@ -115,24 +205,7 @@ const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 const VideoPlayer = ({ video, autoPlay = true }: Props) => {
   // For YouTube videos we just embed YouTube's own player (already perfect UX).
   if (video.type === "youtube") {
-    const id = getYouTubeId(video.src);
-    return (
-      <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden">
-        {id ? (
-          <iframe
-            className="w-full h-full"
-            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=${autoPlay ? 1 : 0}&rel=0&modestbranding=1`}
-            title={video.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-            URL YouTube tidak valid
-          </div>
-        )}
-      </div>
-    );
+    return <YouTubePlayer video={video} autoPlay={autoPlay} />;
   }
 
   if (video.type === "instagram") {
@@ -213,9 +286,15 @@ function LocalPlayer({ video, autoPlay }: Props) {
     };
   }, [scheduleHide]);
 
-  // Fullscreen sync
+  // Fullscreen sync + orientation restore on exit
   useEffect(() => {
-    const onFs = () => setFullscreen(document.fullscreenElement === wrapperRef.current);
+    const onFs = () => {
+      const inFs = document.fullscreenElement === wrapperRef.current;
+      setFullscreen(inFs);
+      if (!inFs) {
+        unlockOrientation();
+      }
+    };
     document.addEventListener("fullscreenchange", onFs);
     return () => document.removeEventListener("fullscreenchange", onFs);
   }, []);
@@ -255,22 +334,12 @@ function LocalPlayer({ video, autoPlay }: Props) {
   const toggleFullscreen = async () => {
     if (!wrapperRef.current) return;
     if (document.fullscreenElement) {
-      try {
-        (screen.orientation as unknown as { unlock?: () => void })?.unlock?.();
-      } catch { /* noop */ }
+      unlockOrientation();
       await document.exitFullscreen();
     } else {
       await wrapperRef.current.requestFullscreen();
-      // Auto-landscape on mobile when video is landscape
-      const v = videoRef.current;
-      const isLandscape = v && v.videoWidth >= v.videoHeight;
-      const isMobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
-      if (isLandscape && isMobile) {
-        try {
-          await (screen.orientation as unknown as { lock?: (o: string) => Promise<void> })
-            ?.lock?.("landscape");
-        } catch { /* user agent may reject; ignore */ }
-      }
+      // Auto-landscape on mobile — always force landscape for better viewing
+      await requestLandscape();
     }
   };
 

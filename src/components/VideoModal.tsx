@@ -34,7 +34,7 @@ const VideoModal = ({ video, onClose }: Props) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-sm"
           // Intentionally NO onClick handler — modal can only be closed via the X button
           role="dialog"
           aria-modal="true"
@@ -45,16 +45,17 @@ const VideoModal = ({ video, onClose }: Props) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-5xl"
+            className="relative w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-3xl lg:max-w-5xl"
+            style={{ maxHeight: "calc(100vh - 2rem)" }}
           >
             {/* Close button — the ONLY way to close */}
             <button
               type="button"
               onClick={onClose}
               aria-label="Tutup video"
-              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-black shadow-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 cursor-pointer"
+              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white text-black shadow-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 cursor-pointer"
             >
-              <X className="w-5 h-5" strokeWidth={2.5} />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
             </button>
 
             <div className="rounded-xl overflow-hidden shadow-2xl bg-black">
@@ -62,10 +63,10 @@ const VideoModal = ({ video, onClose }: Props) => {
               <VideoPlayer key={video.id} video={video} />
             </div>
 
-            <div className="mt-3 text-white">
-              <h2 className="text-lg sm:text-xl font-bold font-heading">{video.title}</h2>
+            <div className="mt-2 sm:mt-3 text-white">
+              <h2 className="text-sm sm:text-lg md:text-xl font-bold font-heading line-clamp-2">{video.title}</h2>
               {video.description && (
-                <p className="mt-1 text-sm text-white/70">{video.description}</p>
+                <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-white/70 line-clamp-2">{video.description}</p>
               )}
             </div>
           </motion.div>
