@@ -7,6 +7,8 @@ const navLinks = [
   { to: "/", hash: "about", label: "About" },
   { to: "/", hash: "technologies", label: "Lessons" },
   { to: "/", hash: "gallery", label: "Gallery" },
+  
+  { to: "/videos", label: "Videos" },
   { to: "/students", label: "Students" },
   { to: "/schedule", label: "Schedules" },
 ] as const;

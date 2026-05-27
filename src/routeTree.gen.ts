@@ -9,11 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VideosRouteImport } from './routes/videos'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as GallerycopyRouteImport } from './routes/gallery copy'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VideosIdRouteImport } from './routes/videos.$id'
 
+const VideosRoute = VideosRouteImport.update({
+  id: '/videos',
+  path: '/videos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentsRoute = StudentsRouteImport.update({
   id: '/students',
   path: '/students',
@@ -22,6 +30,11 @@ const StudentsRoute = StudentsRouteImport.update({
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
   path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GallerycopyRoute = GallerycopyRouteImport.update({
+  id: '/gallery copy',
+  path: '/gallery copy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -34,43 +47,88 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VideosIdRoute = VideosIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => VideosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
+  '/videos': typeof VideosRouteWithChildren
+  '/videos/$id': typeof VideosIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
+  '/videos': typeof VideosRouteWithChildren
+  '/videos/$id': typeof VideosIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
+  '/videos': typeof VideosRouteWithChildren
+  '/videos/$id': typeof VideosIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gallery' | '/schedule' | '/students'
+  fullPaths:
+    | '/'
+    | '/gallery'
+    | '/gallery copy'
+    | '/schedule'
+    | '/students'
+    | '/videos'
+    | '/videos/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gallery' | '/schedule' | '/students'
-  id: '__root__' | '/' | '/gallery' | '/schedule' | '/students'
+  to:
+    | '/'
+    | '/gallery'
+    | '/gallery copy'
+    | '/schedule'
+    | '/students'
+    | '/videos'
+    | '/videos/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/gallery'
+    | '/gallery copy'
+    | '/schedule'
+    | '/students'
+    | '/videos'
+    | '/videos/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GalleryRoute: typeof GalleryRoute
+  GallerycopyRoute: typeof GallerycopyRoute
   ScheduleRoute: typeof ScheduleRoute
   StudentsRoute: typeof StudentsRoute
+  VideosRoute: typeof VideosRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/videos': {
+      id: '/videos'
+      path: '/videos'
+      fullPath: '/videos'
+      preLoaderRoute: typeof VideosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/students': {
       id: '/students'
       path: '/students'
@@ -83,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/schedule'
       fullPath: '/schedule'
       preLoaderRoute: typeof ScheduleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery copy': {
+      id: '/gallery copy'
+      path: '/gallery copy'
+      fullPath: '/gallery copy'
+      preLoaderRoute: typeof GallerycopyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -99,14 +164,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/videos/$id': {
+      id: '/videos/$id'
+      path: '/$id'
+      fullPath: '/videos/$id'
+      preLoaderRoute: typeof VideosIdRouteImport
+      parentRoute: typeof VideosRoute
+    }
   }
 }
+
+interface VideosRouteChildren {
+  VideosIdRoute: typeof VideosIdRoute
+}
+
+const VideosRouteChildren: VideosRouteChildren = {
+  VideosIdRoute: VideosIdRoute,
+}
+
+const VideosRouteWithChildren =
+  VideosRoute._addFileChildren(VideosRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GalleryRoute: GalleryRoute,
+  GallerycopyRoute: GallerycopyRoute,
   ScheduleRoute: ScheduleRoute,
   StudentsRoute: StudentsRoute,
+  VideosRoute: VideosRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
