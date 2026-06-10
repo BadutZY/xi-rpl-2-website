@@ -44,6 +44,12 @@ export const videoCategories: VideoCategory[] = [
     id: "vlogindo",
     title: "Vlog Bahasa Indonesia",
     description: "Momen seru dan kegiatan harian XI RPL 2.",
+  },
+
+  {
+    id: "drama",
+    title: "Drama Pentas Seni",
+    description: "Pentas Seni Drama yang menampilkan bakat akting siswa-siswi XI RPL 2.",
   }
 ];
 
@@ -76,6 +82,22 @@ export const videos: VideoItem[] = [
     type: "youtube",
     src: "https://www.youtube.com/watch?v=f01bKvdiePE",
   },
+
+  {
+    id: "v-5",
+    title: "Drama PART 1",
+    categoryId: "drama",
+    type: "youtube",
+    src: "https://www.youtube.com/watch?v=bH9v2lqKumw&t=15594s",
+  },
+
+  {
+    id: "v-6",
+    title: "Drama PART 2",
+    categoryId: "drama",
+    type: "youtube",
+    src: "https://www.youtube.com/watch?v=cezR1sPCERg&t=2174s",
+  }
 
 
 ];

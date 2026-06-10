@@ -10,6 +10,9 @@ import ngumpul from "@/assets/gallery/ngumpul.jpeg";
 import ngumpul2 from "@/assets/gallery/ngumpul2.jpeg";
 import ngumpul3 from "@/assets/gallery/ngumpul3.jpeg";
 import petugas from "@/assets/gallery/petugas.jpeg";
+import drama1 from "@/assets/gallery/drama1.jpeg";
+import drama2 from "@/assets/gallery/drama2.jpeg";
+import drama3 from "@/assets/gallery/drama3.jpeg";
 
 export interface GalleryImage {
   id: number;
@@ -30,6 +33,9 @@ export const galleryImages: GalleryImage[] = [
   { id: 11, src: ngumpul2, title: " " },
   { id: 12, src: ngumpul3, title: " " },
   { id: 13, src: petugas, title: " " },
+  { id: 14, src: drama1, title: " " },
+  { id: 15, src: drama2, title: " " },
+  { id: 16, src: drama3, title: " " },
 ];
 
 // Hanya 6 foto yang tampil di section preview homepage
