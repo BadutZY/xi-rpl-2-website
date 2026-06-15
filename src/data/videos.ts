@@ -18,8 +18,6 @@
 //        - Local    : ISI dengan path gambar custom milikmu, contoh:
 //                     taruh file di `public/videos/thumbs/intro.jpg`
 //                     lalu isi: thumbnail: "/videos/thumbs/intro.jpg"
-//   5. `duration` TIDAK perlu diisi — akan dihitung otomatis
-//        oleh player saat metadata video dimuat.
 
 export type VideoType = "youtube" | "local" | "instagram";
 
@@ -44,6 +42,12 @@ export const videoCategories: VideoCategory[] = [
     id: "vlogindo",
     title: "Vlog Bahasa Indonesia",
     description: "Momen seru dan kegiatan harian XI RPL 2.",
+  },
+
+  {
+    id: "jepang",
+    title: "Video Bahasa Jepang",
+    description: "Video pembelajaran bahasa Jepang.",
   },
 
   {
@@ -97,7 +101,31 @@ export const videos: VideoItem[] = [
     categoryId: "drama",
     type: "youtube",
     src: "https://www.youtube.com/watch?v=cezR1sPCERg&t=2174s",
-  }
+  },
+
+  {
+    id: "v-7",
+    title: "Kelompok 1 ",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://youtu.be/fp9ycPwzjFY?si=A3eEKsgsITCxQgPu",
+  },
+
+  {
+    id: "v-8",
+    title: "Kelompok 2",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://youtu.be/v4onA30Ixqk?si=i6BJuYbN3efTWKEd",
+  },
+
+  {
+    id: "v-9",
+    title: "Kelompok 5",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://youtu.be/4_B6n8rwhio?si=N1EpycqWAr6jbIRW",
+  },
 
 
 ];
