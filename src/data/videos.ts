@@ -121,11 +121,35 @@ export const videos: VideoItem[] = [
 
   {
     id: "v-9",
+    title: "Kelompok 3",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://youtu.be/3UdbY74afDk?si=TYu4kzgj3Ly2DBXB",
+  },
+
+  {
+    id: "v-10",
+    title: "Kelompok 4",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://www.youtube.com/watch?v=j8dHIV4n9HU",
+  },
+
+  {
+    id: "v-11",
     title: "Kelompok 5",
     categoryId: "jepang",
     type: "youtube",
     src: "https://youtu.be/4_B6n8rwhio?si=N1EpycqWAr6jbIRW",
   },
+
+  {
+    id: "v-12",
+    title: "Kelompok 6",
+    categoryId: "jepang",
+    type: "youtube",
+    src: "https://youtu.be/Hwuk7O4xgUQ?si=dt4fc3yfGASpo5vQ",
+  }
 
 
 ];
