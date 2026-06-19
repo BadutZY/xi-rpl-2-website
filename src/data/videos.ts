@@ -6,12 +6,8 @@
 //   1. Tambahkan object di array `videos`.
 //   2. Set `categoryId` sesuai kategori yang sudah didefinisikan.
 //   3. `type` boleh: "youtube" | "local" | "instagram"
-//        - youtube  : isi `src` dengan URL/ID YouTube
-//                     contoh: "https://youtu.be/dQw4w9WgXcQ"
 //        - local    : taruh file di `public/videos/...` lalu
 //                     isi `src` dengan "/videos/namafile.mp4"
-//        - instagram: isi `src` dengan URL post/reel Instagram
-//                     (akan ditampilkan via official embed)
 //   4. `thumbnail` (cover gambar untuk kartu video):
 //        - YouTube  : KOSONGKAN. Akan otomatis pakai thumbnail YouTube.
 //        - Instagram: KOSONGKAN. Cover bawaan IG akan tampil di embed.
