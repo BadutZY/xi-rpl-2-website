@@ -14,11 +14,22 @@
 //        - Local    : ISI dengan path gambar custom milikmu, contoh:
 //                     taruh file di `public/videos/thumbs/intro.jpg`
 //                     lalu isi: thumbnail: "/videos/thumbs/intro.jpg"
+//   5. `orientation` (KHUSUS video local, opsional):
+//        - "landscape" : saat fullscreen di mobile, paksa layar horizontal (default)
+//        - "portrait"  : saat fullscreen di mobile, paksa layar vertikal
+//        - Jika tidak diisi, default ke "landscape"
 import kera1 from "@/assets/gallery/kera2.jpeg";
 import kera2 from "@/assets/gallery/kera6.jpeg";
 
 
 export type VideoType = "youtube" | "local" | "instagram";
+
+/**
+ * Orientasi fullscreen untuk video local.
+ * - "landscape" : layar dipaksa horizontal saat fullscreen (default)
+ * - "portrait"  : layar dipaksa vertikal saat fullscreen
+ */
+export type VideoOrientation = "landscape" | "portrait";
 
 export interface VideoCategory {
   id: string;
@@ -34,6 +45,11 @@ export interface VideoItem {
   type: VideoType;
   src: string;
   thumbnail?: string;
+  /**
+   * Orientasi layar saat fullscreen (KHUSUS video local).
+   * "landscape" = horizontal (default), "portrait" = vertikal.
+   */
+  orientation?: VideoOrientation;
 }
 
 export const videoCategories: VideoCategory[] = [
@@ -163,6 +179,7 @@ export const videos: VideoItem[] = [
     type: "local",
     src: "kera/keravid1.mp4",
     thumbnail: kera1,
+    orientation: "portrait",
   },
 
   {
@@ -172,6 +189,7 @@ export const videos: VideoItem[] = [
     type: "local",
     src: "kera/keravid2.mp4",
     thumbnail: kera1,
+    orientation: "portrait",
   },
 
   {
@@ -181,6 +199,7 @@ export const videos: VideoItem[] = [
     type: "local",
     src: "kera/keravid3.mp4",
     thumbnail: kera2,
+    orientation: "portrait",
   }
 
 

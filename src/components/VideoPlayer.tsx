@@ -26,12 +26,13 @@ declare global {
   }
 }
 
-async function requestLandscape() {
+async function requestOrientation(orientation: "landscape" | "portrait" = "landscape") {
   const isMobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
   if (!isMobile) return;
   try {
+    const lockValue = orientation === "portrait" ? "portrait" : "landscape";
     await (screen.orientation as unknown as { lock?: (o: string) => Promise<void> })
-      ?.lock?.("landscape");
+      ?.lock?.(lockValue);
   } catch {
   }
 }
@@ -137,7 +138,7 @@ function YouTubePlayer({ video, autoPlay }: { video: VideoItem; autoPlay: boolea
       await document.exitFullscreen();
     } else {
       await wrapperRef.current.requestFullscreen();
-      await requestLandscape();
+      await requestOrientation("landscape");
     }
   };
 
@@ -312,7 +313,7 @@ function LocalPlayer({ video, autoPlay }: Props) {
       await document.exitFullscreen();
     } else {
       await wrapperRef.current.requestFullscreen();
-      await requestLandscape();
+      await requestOrientation(video.orientation ?? "landscape");
     }
   };
 
