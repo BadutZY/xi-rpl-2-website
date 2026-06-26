@@ -6,8 +6,8 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/", hash: "about", label: "About" },
   { to: "/", hash: "technologies", label: "Lessons" },
-  { to: "/", hash: "gallery", label: "Gallery" },
   
+  { to: "/gallery", label: "Gallery" },
   { to: "/videos", label: "Videos" },
   { to: "/students", label: "Students" },
   { to: "/schedule", label: "Schedules" },
@@ -97,8 +97,6 @@ const Navbar = () => {
       }
       return location.pathname === link.to;
     }
-    if (link.hash === "gallery" && location.pathname === "/gallery") return true;
-    if (location.pathname !== "/") return false;
     return activeHash === link.hash;
   };
 

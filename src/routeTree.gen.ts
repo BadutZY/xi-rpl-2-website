@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as StudentsRouteImport } from './routes/students'
 import { Route as ScheduleRouteImport } from './routes/schedule'
-import { Route as GallerycopyRouteImport } from './routes/gallery copy'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VideosIdRouteImport } from './routes/videos.$id'
@@ -30,11 +29,6 @@ const StudentsRoute = StudentsRouteImport.update({
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
   path: '/schedule',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GallerycopyRoute = GallerycopyRouteImport.update({
-  id: '/gallery copy',
-  path: '/gallery copy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -56,7 +50,6 @@ const VideosIdRoute = VideosIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
-  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
   '/videos': typeof VideosRouteWithChildren
@@ -65,7 +58,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
-  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
   '/videos': typeof VideosRouteWithChildren
@@ -75,7 +67,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
-  '/gallery copy': typeof GallerycopyRoute
   '/schedule': typeof ScheduleRoute
   '/students': typeof StudentsRoute
   '/videos': typeof VideosRouteWithChildren
@@ -86,25 +77,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/gallery'
-    | '/gallery copy'
     | '/schedule'
     | '/students'
     | '/videos'
     | '/videos/$id'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/gallery'
-    | '/gallery copy'
-    | '/schedule'
-    | '/students'
-    | '/videos'
-    | '/videos/$id'
+  to: '/' | '/gallery' | '/schedule' | '/students' | '/videos' | '/videos/$id'
   id:
     | '__root__'
     | '/'
     | '/gallery'
-    | '/gallery copy'
     | '/schedule'
     | '/students'
     | '/videos'
@@ -114,7 +96,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GalleryRoute: typeof GalleryRoute
-  GallerycopyRoute: typeof GallerycopyRoute
   ScheduleRoute: typeof ScheduleRoute
   StudentsRoute: typeof StudentsRoute
   VideosRoute: typeof VideosRouteWithChildren
@@ -141,13 +122,6 @@ declare module '@tanstack/react-router' {
       path: '/schedule'
       fullPath: '/schedule'
       preLoaderRoute: typeof ScheduleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery copy': {
-      id: '/gallery copy'
-      path: '/gallery copy'
-      fullPath: '/gallery copy'
-      preLoaderRoute: typeof GallerycopyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -188,7 +162,6 @@ const VideosRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GalleryRoute: GalleryRoute,
-  GallerycopyRoute: GallerycopyRoute,
   ScheduleRoute: ScheduleRoute,
   StudentsRoute: StudentsRoute,
   VideosRoute: VideosRouteWithChildren,

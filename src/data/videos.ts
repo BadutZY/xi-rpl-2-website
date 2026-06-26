@@ -161,7 +161,7 @@ export const videos: VideoItem[] = [
     title: "Kebun Raya",
     categoryId: "kera",
     type: "local",
-    src: "public/kera/keravid1.mp4",
+    src: "kera/keravid1.mp4",
     thumbnail: kera1,
   },
 
@@ -170,7 +170,7 @@ export const videos: VideoItem[] = [
     title: "Kebun Raya",
     categoryId: "kera",
     type: "local",
-    src: "public/kera/keravid2.mp4",
+    src: "kera/keravid2.mp4",
     thumbnail: kera1,
   },
 
@@ -179,7 +179,7 @@ export const videos: VideoItem[] = [
     title: "Kebun Raya",
     categoryId: "kera",
     type: "local",
-    src: "public/kera/keravid3.mp4",
+    src: "kera/keravid3.mp4",
     thumbnail: kera2,
   }
 

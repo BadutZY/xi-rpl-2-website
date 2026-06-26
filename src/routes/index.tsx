@@ -5,7 +5,6 @@ import { ArrowDown, Code, Users, CalendarDays, ArrowRight, Database, Cpu, Images
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import heroImage from "@/assets/hero-class.jpeg";
-import { galleryPreview } from "@/data/gallery";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -163,66 +162,6 @@ function Index() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Gallery Preview Section */}
-      <section id="gallery" className="py-20">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">
-              <span className="gradient-text">Gallery</span>{" "}
-              <span className="text-foreground">Kelas</span>
-            </h2>
-            <div className="section-divider mx-auto mb-6" />
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Momen-momen seru dan kenangan berharga bersama XI RPL 2.
-            </p>
-          </motion.div>
-
-          {/* Masonry preview grid */}
-          <div className="columns-2 md:columns-3 gap-3 space-y-3 mb-10">
-            {galleryPreview.map((img, i) => (
-              <motion.div
-                key={img.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06, duration: 0.4 }}
-                className="break-inside-avoid rounded-xl overflow-hidden gallery-preview-item"
-              >
-                <img
-                  src={img.src}
-                  alt={img.title}
-                  loading="lazy"
-                  className="w-full object-cover block"
-                />
-                <div className="gallery-preview-overlay">
-                  <span className="text-foreground text-sm font-medium text-center px-3">{img.title}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* View More button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="text-center"
-          >
-            <Link
-              to="/gallery"
-              className="btn-primary px-8 py-4 rounded-lg font-medium inline-flex items-center justify-center gap-2 text-base"
-            >
-              <Images size={20} />
-              View More
-              <ArrowRight size={18} />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
